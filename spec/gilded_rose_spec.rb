@@ -55,21 +55,37 @@ describe GildedRose do
     end
   end
 
+  context "Sulfuras" do
+    describe "#update_quality" do
+      it "never has to be sold" do
+        items = [Item.new("Sulfuras, Hand of Ragnaros", 10, 50)]
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to_not change{ items[0].sell_in}
+      end
+
+      it "never decreseas in quality" do
+        items = [Item.new("Sulfuras, Hand of Ragnaros", 10, 50)]
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to_not change{ items[0].quality}
+      end
+    end
+  end
+
   context "The Quality of an item is never more than 50" do
     describe "#update_quality" do
-      it "Aged Brie's quality cannot go beyond 50" do
+      it "Aged Brie" do
         items = [Item.new("Aged Brie", 10, 50)]
         inventory = GildedRose.new(items)
         expect { inventory.update_quality }.to_not change{ items[0].quality}
       end
 
-      it "Backstage passes' quality cannot go beyond 50" do
+      it "Backstage passes" do
         items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 10, 50)]
         inventory = GildedRose.new(items)
         expect { inventory.update_quality }.to_not change{ items[0].quality}
       end
 
-      it "Sulfuras quality cannot go beyond 50" do
+      it "Sulfuras" do
         items = [Item.new("Sulfuras, Hand of Ragnaros", 10, 50)]
         inventory = GildedRose.new(items)
         expect { inventory.update_quality }.to_not change{ items[0].quality}
