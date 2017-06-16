@@ -77,6 +77,34 @@ describe GildedRose do
     end
   end
 
+  context "Backstage passes" do
+    describe "#update_quality" do
+      it "increases in quality by 1 when its sell in value is more than 10 days" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 15, 20)]
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to change{ items[0].quality}.by 1
+      end
+
+      it "increases in quality by 2 when its sell in value is 10 days or less" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 10, 25)]
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to change{ items[0].quality}.by 2
+      end
+
+      it "increases in quality by 3 when its sell in value is 5 days or less" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 5, 35)]
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to change{ items[0].quality}.by 3
+      end
+
+      it "quality drops to 0 after the concert" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 50)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].quality).to eq 0
+      end
+    end
+  end
+
   context "The Quality of an item is never more than 50" do
     describe "#update_quality" do
       it "Aged Brie (sell_in value is still counted)" do

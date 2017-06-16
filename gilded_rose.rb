@@ -16,11 +16,14 @@ class GildedRose
         item.quality -= 2 unless item.quality == 0
       elsif aged_brie?(item) && item.quality < 50
         item.sell_in -= 1
-        quality_check(item)
+        aged_brie_quality_check(item)
       elsif aged_brie?(item) && item.quality == 50
         item.sell_in -= 1
       elsif sulfuras?(item)
       elsif backstage_passes?(item)
+        sell_in_check(item) unless is_quality_fifty?(item)
+        item.quality = 0 if item.sell_in <= 0
+        item.sell_in -= 1
       end
     end
   end
@@ -43,12 +46,28 @@ class GildedRose
     item.name == "Backstage passes to a TAFKAL80ETC concert"
   end
 
-  def quality_check(item)
-    if item.sell_in > 0
+  def aged_brie_quality_check(item)
+    if item.sell_in >= 0
       item.quality += 1
     else
       item.quality += 2
     end
+  end
+
+  def sell_in_check(item)
+    if item.sell_in <= 0
+      item.quality = 0
+    elsif item.sell_in <= 5 && item.quality < 50
+      item.quality += 3
+    elsif item.sell_in <= 10 && item.quality < 50
+      item.quality += 2
+    elsif item.sell_in > 10 && item.quality < 49
+      item.quality += 1
+    end
+  end
+
+  def is_quality_fifty?(item)
+    item.quality == 50
   end
 
 end
