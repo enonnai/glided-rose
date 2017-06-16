@@ -17,6 +17,8 @@ class GildedRose
       elsif aged_brie?(item) && item.quality < 50
         item.sell_in -= 1
         item.quality += 1
+      else sulfuras?(item)
+        item.sell_in = "not applicable"
       end
     end
   end
@@ -29,6 +31,10 @@ class GildedRose
 
   def aged_brie?(item)
     item.name == "Aged Brie"
+  end
+
+  def sulfuras?(item)
+    item.name == "Sulfuras, Hand of Ragnaros"
   end
 
 end
