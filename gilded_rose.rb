@@ -17,7 +17,9 @@ class GildedRose
       elsif aged_brie?(item) && item.quality < 50
         item.sell_in -= 1
         item.quality += 1
-      else sulfuras?(item)
+      elsif aged_brie?(item) && item.quality == 50
+        item.sell_in -= 1
+      elsif sulfuras?(item)
         item.sell_in = "not applicable"
       end
     end

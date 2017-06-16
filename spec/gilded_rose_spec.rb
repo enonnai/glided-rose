@@ -73,10 +73,11 @@ describe GildedRose do
 
   context "The Quality of an item is never more than 50" do
     describe "#update_quality" do
-      it "Aged Brie" do
+      it "Aged Brie (sell_in value is still counted)" do
         items = [Item.new("Aged Brie", 10, 50)]
         inventory = GildedRose.new(items)
         expect { inventory.update_quality }.to_not change{ items[0].quality}
+        expect { inventory.update_quality }.to change{ items[0].sell_in}.by -1
       end
 
       it "Backstage passes" do
