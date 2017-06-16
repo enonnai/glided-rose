@@ -21,9 +21,15 @@ class GildedRose
         item.sell_in -= 1
       elsif sulfuras?(item)
       elsif backstage_passes?(item)
-        sell_in_check(item) unless is_quality_fifty?(item)
+        passes_sell_in_check(item) unless is_quality_fifty?(item)
         item.quality = 0 if item.sell_in <= 0
         item.sell_in -= 1
+      elsif conjured_item?(item) && item.sell_in > 0
+        item.sell_in -= 1
+        item.quality -= 2 unless item.quality == 0
+      elsif conjured_item?(item) && item.sell_in <= 0
+        item.sell_in -= 1
+        item.quality -= 4 unless item.quality == 0
       end
     end
   end
@@ -31,7 +37,7 @@ class GildedRose
   private
 
   def not_a_special_item?(item)
-    item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" && item.name != "Sulfuras, Hand of Ragnaros"
+    item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" && item.name != "Sulfuras, Hand of Ragnaros" && item.name != "Conjured item"
   end
 
   def aged_brie?(item)
@@ -46,6 +52,10 @@ class GildedRose
     item.name == "Backstage passes to a TAFKAL80ETC concert"
   end
 
+  def conjured_item?(item)
+    item.name == "Conjured item"
+  end
+
   def aged_brie_quality_check(item)
     if item.sell_in >= 0
       item.quality += 1
@@ -54,7 +64,7 @@ class GildedRose
     end
   end
 
-  def sell_in_check(item)
+  def passes_sell_in_check(item)
     if item.sell_in <= 0
       item.quality = 0
     elsif item.sell_in <= 5 && item.quality < 50
