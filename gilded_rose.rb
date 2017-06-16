@@ -16,11 +16,11 @@ class GildedRose
         item.quality -= 2 unless item.quality == 0
       elsif aged_brie?(item) && item.quality < 50
         item.sell_in -= 1
-        item.quality += 1
+        quality_check(item)
       elsif aged_brie?(item) && item.quality == 50
         item.sell_in -= 1
       elsif sulfuras?(item)
-        item.sell_in = "not applicable"
+      elsif backstage_passes?(item)
       end
     end
   end
@@ -37,6 +37,18 @@ class GildedRose
 
   def sulfuras?(item)
     item.name == "Sulfuras, Hand of Ragnaros"
+  end
+
+  def backstage_passes?(item)
+    item.name == "Backstage passes to a TAFKAL80ETC concert"
+  end
+
+  def quality_check(item)
+    if item.sell_in > 0
+      item.quality += 1
+    else
+      item.quality += 2
+    end
   end
 
 end

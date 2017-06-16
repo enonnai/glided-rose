@@ -41,10 +41,16 @@ describe GildedRose do
 
   context "Aged Brie" do
     describe "#update_quality" do
-      it "increases in quality the older it gets" do
+      it "increases in quality by 1 the older it gets" do
         items = [Item.new("Aged Brie", 10, 15)]
         inventory = GildedRose.new(items)
         expect { inventory.update_quality }.to change{ items[0].quality}.by 1
+      end
+
+      it "increases in quality by 2 after its sell in value has reached 0" do
+        items = [Item.new("Aged Brie", 0, 10)]
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to change{ items[0].quality}.by 2
       end
 
       it "doesn't increase in quality beyond 50" do
@@ -59,8 +65,8 @@ describe GildedRose do
     describe "#update_quality" do
       it "never has to be sold" do
         items = [Item.new("Sulfuras, Hand of Ragnaros", 10, 50)]
-        inventory = GildedRose.new(items).update_quality
-        expect(items[0].sell_in).to eq "not applicable"
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to_not change{ items[0].sell_in}
       end
 
       it "never decreseas in quality" do
@@ -91,6 +97,13 @@ describe GildedRose do
         inventory = GildedRose.new(items)
         expect { inventory.update_quality }.to_not change{ items[0].quality}
       end
+=begin
+      it "All the other items" do
+        items = [Item.new("Random item", 10, 50)]
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to_not change{ items[0].quality}
+      end
+=end
     end
   end
 
