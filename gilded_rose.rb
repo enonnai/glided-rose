@@ -14,6 +14,9 @@ class GildedRose
       elsif not_a_special_item?(item) && item.sell_in <= 0
         item.sell_in -= 1
         item.quality -= 2 unless item.quality == 0
+      elsif aged_brie?(item) && item.quality < 50
+        item.sell_in -= 1
+        item.quality += 1
       end
     end
   end
@@ -23,6 +26,11 @@ class GildedRose
   def not_a_special_item?(item)
     item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" && item.name != "Sulfuras, Hand of Ragnaros"
   end
+
+  def aged_brie?(item)
+    item.name == "Aged Brie"
+  end
+
 end
 
 class Item
