@@ -97,6 +97,12 @@ describe GildedRose do
         expect { inventory.update_quality }.to change{ items[0].quality}.by 3
       end
 
+      it "increase in quality by 3 when its sell in value is 5 days or less, but cannot go beyond 50" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 5, 48)]
+        inventory = GildedRose.new(items)
+        expect { inventory.update_quality }.to change{ items[0].quality}.by 2
+      end
+
       it "their quality drops to 0 after the concert" do
         items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 50)]
         GildedRose.new(items).update_quality()
