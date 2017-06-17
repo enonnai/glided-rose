@@ -18,21 +18,28 @@ class GildedRose
         PassesQualityUpdater.new.update_quality(item)
       elsif item.name == "Conjured item"
         ConjuredQualityUpdater.new.update_quality(item)
+      else
+        QualityUpdater.new.update_quality(item)
+      end
+        item.sell_in -= 1 unless item.name == "Sulfuras, Hand of Ragnaros"
+    end
+  end
+
+  class QualityUpdater
+
+    def update_quality(item)
+      if item.sell_in > 0
+        item.quality -= 1 unless item.quality == 0
+      elsif item.sell_in <= 0
+        item.quality -= 2 unless item.quality == 0
       end
     end
   end
-=begin
-      if not_a_special_item?(item) && item.sell_in > 0
-        item.quality = item.quality - 1 unless item.quality == 0
-      elsif not_a_special_item?(item) && item.sell_in <= 0
-        item.quality -= 2 unless item.quality == 0
-=end
 
   class FoodQualityUpdater
 
     def update_quality(item)
       quality_checker(item) if item.quality < 50
-      item.sell_in -= 1
     end
 
     private
@@ -82,11 +89,4 @@ class GildedRose
       end
     end
   end
-
-  private
-
-  def not_a_special_item?(item)
-    item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" && item.name != "Sulfuras, Hand of Ragnaros" && item.name != "Conjured item"
-  end
-
 end

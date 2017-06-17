@@ -8,33 +8,33 @@ describe GildedRose do
 
       it "does not change their name" do
         items = [Item.new("foo", 10, 10)]
-        GildedRose.new(items).update_quality()
+        GildedRose.new(items).update_quality(items)
         expect(items[0].name).to eq "foo"
       end
 
       it "changes the sell in value by -1" do
         items = [Item.new("foo", 10, 10)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to change{ items[0].sell_in}.by -1
+        expect { inventory.update_quality(items) }.to change{ items[0].sell_in}.by -1
       end
 
       it "degrade in quality by -1" do
         items = [Item.new("foo", 10, 10)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to change{ items[0].quality}.by -1
+        expect { inventory.update_quality(items) }.to change{ items[0].quality}.by -1
       end
 
       it "degrade in quality by -2 when passed the sell by date" do
         items = [Item.new("foo", 0, 3)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to change{ items[0].quality}.by -2
+        expect { inventory.update_quality(items) }.to change{ items[0].quality}.by -2
       end
 
       it "their quality is never negative" do
         items = [Item.new("foo", 2, 1)]
         inventory = GildedRose.new(items)
-        inventory.update_quality
-        expect { inventory.update_quality }.to_not change{ items[0].quality}
+        inventory.update_quality(items)
+        expect { inventory.update_quality(items) }.to_not change{ items[0].quality}
       end
     end
   end
@@ -132,20 +132,20 @@ describe GildedRose do
       it "Aged Brie (sell_in value is still counted)" do
         items = [Item.new("Aged Brie", 10, 50)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to_not change{ items[0].quality}
-        expect { inventory.update_quality }.to change{ items[0].sell_in}.by -1
+        expect { inventory.update_quality(items) }.to_not change{ items[0].quality}
+        expect { inventory.update_quality(items) }.to change{ items[0].sell_in}.by -1
       end
 
       it "Backstage passes" do
         items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 10, 50)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to_not change{ items[0].quality}
+        expect { inventory.update_quality(items) }.to_not change{ items[0].quality}
       end
 
       it "Sulfuras" do
         items = [Item.new("Sulfuras, Hand of Ragnaros", 10, 50)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to_not change{ items[0].quality}
+        expect { inventory.update_quality(items) }.to_not change{ items[0].quality}
       end
 
     end
