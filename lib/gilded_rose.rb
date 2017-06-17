@@ -1,3 +1,5 @@
+require 'item'
+
 class GildedRose
 
   attr_accessor :items
@@ -6,8 +8,14 @@ class GildedRose
     @items = items
   end
 
-  def update_quality()
+  def update_quality(items)
     @items.each do |item|
+      if item.name == "Aged Brie"
+        FoodQualityUpdater.new.update_quality(item)
+      end
+    end
+  end
+=begin
       if not_a_special_item?(item) && item.sell_in > 0
         item.quality = item.quality - 1 unless item.quality == 0
       elsif not_a_special_item?(item) && item.sell_in <= 0
@@ -25,6 +33,26 @@ class GildedRose
       end
       item.sell_in -= 1 unless sulfuras?(item)
     end
+  end
+=end
+
+  class FoodQualityUpdater
+
+    def update_quality(item)
+      quality_check(item) if item.quality < 50
+      item.sell_in -= 1
+    end
+
+    private
+
+    def quality_check(item)
+      if item.sell_in > 0
+        item.quality += 1
+      elsif item.sell_in <= 0
+        item.quality += 2
+      end
+    end
+
   end
 
   private
@@ -49,13 +77,7 @@ class GildedRose
     item.name == "Conjured item"
   end
 
-  def aged_brie_quality_check(item)
-    if item.sell_in > 0
-      item.quality += 1
-    elsif item.sell_in <= 0
-      item.quality += 2
-    end
-  end
+
 
   def passes_sell_in_check(item)
       if item.sell_in <= 0
@@ -74,18 +96,4 @@ class GildedRose
     item.quality == 50
   end
 
-end
-
-class Item
-  attr_accessor :name, :sell_in, :quality
-
-  def initialize(name, sell_in, quality)
-    @name = name
-    @sell_in = sell_in
-    @quality = quality
-  end
-
-  def to_s()
-    "#{@name}, #{@sell_in}, #{@quality}"
-  end
 end

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../gilded_rose.rb'
+require_relative '../lib/gilded_rose.rb'
 
 describe GildedRose do
 
@@ -44,19 +44,19 @@ describe GildedRose do
       it "increases in quality by 1 the older it gets" do
         items = [Item.new("Aged Brie", 10, 15)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to change{ items[0].quality}.by 1
+        expect { inventory.update_quality(items) }.to change{ items[0].quality}.by 1
       end
 
       it "increases in quality by 2 after its sell in value has reached 0" do
         items = [Item.new("Aged Brie", 0, 10)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to change{ items[0].quality}.by 2
+        expect { inventory.update_quality(items) }.to change{ items[0].quality}.by 2
       end
 
       it "does not increase in quality beyond 50" do
         items = [Item.new("Aged Brie", 10, 50)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to_not change{ items[0].quality}
+        expect { inventory.update_quality(items) }.to_not change{ items[0].quality}
       end
     end
   end
