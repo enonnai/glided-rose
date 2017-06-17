@@ -116,13 +116,13 @@ describe GildedRose do
       it "degrade in quality by -2" do
         items = [Item.new("Conjured item", 10, 10)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to change{ items[0].quality}.by -2
+        expect { inventory.update_quality(items) }.to change{ items[0].quality}.by -2
       end
 
       it "degrade in quality by -4 when passed the sell by date" do
         items = [Item.new("Conjured item", 0, 5)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to change{ items[0].quality}.by -4
+        expect { inventory.update_quality(items) }.to change{ items[0].quality}.by -4
       end
     end
   end
