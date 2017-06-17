@@ -12,6 +12,8 @@ class GildedRose
     @items.each do |item|
       if item.name == "Aged Brie"
         FoodQualityUpdater.new.update_quality(item)
+      elsif item.name == "Sulfuras, Hand of Ragnaros"
+        SulfurasQualityUpdater.new.update_quality(item)
       end
     end
   end
@@ -52,21 +54,17 @@ class GildedRose
         item.quality += 2
       end
     end
+  end
 
+  class SulfurasQualityUpdater
+    def update_quality(item)
+    end
   end
 
   private
 
   def not_a_special_item?(item)
     item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" && item.name != "Sulfuras, Hand of Ragnaros" && item.name != "Conjured item"
-  end
-
-  def aged_brie?(item)
-    item.name == "Aged Brie"
-  end
-
-  def sulfuras?(item)
-    item.name == "Sulfuras, Hand of Ragnaros"
   end
 
   def backstage_passes?(item)

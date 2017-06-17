@@ -66,13 +66,13 @@ describe GildedRose do
       it "never have to be sold" do
         items = [Item.new("Sulfuras, Hand of Ragnaros", 10, 50)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to_not change{ items[0].sell_in}
+        expect { inventory.update_quality(items) }.to_not change{ items[0].sell_in}
       end
 
       it "never decrease in quality" do
         items = [Item.new("Sulfuras, Hand of Ragnaros", 10, 50)]
         inventory = GildedRose.new(items)
-        expect { inventory.update_quality }.to_not change{ items[0].quality}
+        expect { inventory.update_quality(items) }.to_not change{ items[0].quality}
       end
     end
   end
