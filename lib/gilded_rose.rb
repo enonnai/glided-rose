@@ -21,7 +21,7 @@ class GildedRose
       else
         QualityUpdater.new.update_quality(item)
       end
-        item.sell_in -= 1 unless item.name == "Sulfuras, Hand of Ragnaros"
+      item.sell_in -= 1 unless item.name == "Sulfuras, Hand of Ragnaros"
     end
   end
 
